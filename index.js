@@ -7,8 +7,9 @@ wsServer.on("connection", (connection) => {
   connection.on("message", (message) => {
     // group chat functionality, send back any message received to every client
     // connected
+    message = JSON.parse(message);
     wsServer.clients.forEach(function each (client){
-      client.send(message);
+      client.send(JSON.stringify(message));
     });
   });
 });
