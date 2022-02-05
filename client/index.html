@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>WS Chat</h1>
+  <section id="nickname">
+    <input id="nick" placeholder="Your nickname, please.">
+    <button id="set-nick-button">Send</button>
+  </section>
+  <section id="chat">
+    <div id="flash-message"></div>
+    <input id="message-input">
+    <button id="send-message">Send</button>
+    <div id="message-display"></div>
+  </section>
+</body>
+
+<script>
+  let nickname;
+  const connection = new WebSocket('ws://localhost:8080');
+  const nickSection = document.getElementById('nickname');
+  const nickInput = document.getElementById('nick');
+  const setNickButton = document.getElementById('set-nick-button');
+  const chatSection = document.getElementById('chat');
+  const flashMessageElement = document.getElementById('flash-message');
+
+  chatSection.style.display = 'none';
+
+  setNickButton.addEventListener('click', () => {
+    nickname = nickInput.value;
+    if (nickname) {
+      nickSection.style.display = 'none';
+      chatSection.style.display = '';
+      flashMessageElement.innerHTML = `<h3>Welcome ${nickname}!</h3>`;
+    }
+  });
+</script>
+
+</html>

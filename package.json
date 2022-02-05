@@ -1,0 +1,20 @@
+{
+  "name": "ws_chat_demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^9.4.1",
+    "mock-socket": "^9.1.2",
+    "nodemon": "^2.0.15",
+    "superstatic": "^7.1.0"
+  },
+  "dependencies": {
+    "ws": "^8.4.2"
+  },
+  "scripts": {
+    "start:server": "nodemon --ignore client/",
+    "start:client": "superstatic client --port 3000",
+    "cypress": "cypress open"
+  }
+}
