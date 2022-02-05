@@ -32,7 +32,7 @@ Cypress.Commands.add("visitWithWsStub", (path) => {
   });
 });
 
-Cypress.Commands.add("incommingMessage", (wsServer, message) => {
+Cypress.Commands.add("incomingMessage", (wsServer, message) => {
   cy.wrap(wsServer).then((connection) => {
     message =
       message.constructor.name === "Object" ? JSON.stringify(message) : message;

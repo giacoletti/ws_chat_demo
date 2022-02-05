@@ -18,7 +18,7 @@
     <div id="flash-message"></div>
     <input id="message-input">
     <button id="send-message">Send</button>
-    <div id="message-display"></div>
+    <div id="messages"></div>
   </section>
 </body>
 
@@ -30,6 +30,9 @@
   const setNickButton = document.getElementById('set-nick-button');
   const chatSection = document.getElementById('chat');
   const flashMessageElement = document.getElementById('flash-message');
+  const messagesElement = document.getElementById('messages');
+  const setMessageInput = document.getElementById('message-input');
+  const sendMessageButton = document.getElementById('send-message');
 
   chatSection.style.display = 'none';
 
@@ -41,6 +44,38 @@
       flashMessageElement.innerHTML = `<h3>Welcome ${nickname}!</h3>`;
     }
   });
+
+  sendMessageButton.addEventListener('click', () => {
+    let message = setMessageInput.value;
+    connection.send(JSON.stringify({ nick: nickname, body: message }));
+    setMessageInput.value = '';
+  });
+
+  connection.addEventListener('open', (conn) => {
+    // debugger;
+  });
+
+  connection.addEventListener('message', (incomingMessage) => {
+    let newMessage = document.createElement('div');
+    let message, messageBody;
+    if (isParsableJson(incomingMessage.data)) {
+      message = JSON.parse(incomingMessage.data);
+      messageBody = `${message.nick}: ${message.body}`;
+    } else {
+      messageBody = incomingMessage.data;
+    }
+    newMessage.innerHTML = `<p>${messageBody}</p>`;
+    messagesElement.appendChild(newMessage);
+  });
+
+  function isParsableJson(data) {
+    try {
+      JSON.parse(data);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 </script>
 
 </html>
